@@ -32,7 +32,7 @@
 
 ## Совместимость и реализуемость
 
-- Android 10+ (minSdk 29), target/compile SDK 37 (Android 17).
+- Android 9+ (minSdk 28), target/compile SDK 37 (Android 17).
 - Получателю нужен NFC с ISO-DEP; отправителю — **NFC HCE**. Наличие NFC само по себе
   не гарантирует HCE. Без NFC приложение показывает объяснение; без HCE можно принимать.
 - Отправитель использует `HostApduService`, получатель — `enableReaderMode()` с NFC-A

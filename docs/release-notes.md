@@ -1,4 +1,4 @@
-First experimental NFC Note build for Android 10+.
+First experimental NFC Note build for Android 9+.
 
 - Send and receive up to 1024 UTF-8 bytes directly over NFC HCE/ISO-DEP.
 - Explicit one-shot preparation, 60-second expiry, cancellation on backgrounding.
