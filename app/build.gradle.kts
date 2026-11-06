@@ -9,8 +9,8 @@ android {
         applicationId = "io.github.yurkai.nfcnote"
         minSdk = 28
         targetSdk = 37
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.1.1"
     }
     val keyPath = System.getenv("NFC_NOTE_KEYSTORE")
     signingConfigs {
@@ -25,7 +25,9 @@ android {
         debug { applicationIdSuffix = ".debug"; versionNameSuffix = "-debug" }
         release {
             if (keyPath != null) signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
     buildFeatures { compose = true }

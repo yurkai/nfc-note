@@ -43,6 +43,11 @@ jobs:
           version=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' app/build.gradle.kts)
           test "$GITHUB_REF_NAME" = "v$version"
       - run: ./gradlew --no-daemon testDebugUnitTest lintRelease assembleRelease
+      - name: Preserve R8 mapping and reports
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: release-r8-reports
+          path: app/build/outputs/mapping/release/
       - name: Verify signature and package
         run: |
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs app/build/outputs/apk/release/app-release.apk
