@@ -1,31 +1,42 @@
-# Проверка на двух физических телефонах
+# Testing with two physical phones
 
-Статус: **полный план не выполнен**. Пользователь подтвердил успешную передачу
-в v0.1.0 между физическими телефонами, включая старые. Точные модели и версии ОС
-не зафиксированы. Для v0.1.1 с R8 требуется повторная проверка радиоканала.
-Unit-тесты и эмулятор не доказывают работоспособность радиоканала.
+Physical-device testing is in progress. Successful transfers were reported for
+v0.1.0, including on older phones. The exact models and Android versions were
+unrecorded. The R8-optimized v0.1.1 still needs a physical-device regression check.
+Testing NFC transfers requires physical devices.
 
-Запишите для каждого телефона модель, Android/build, версию APK, поддержку HCE,
-включён ли Secure NFC и выбран ли сторонний кошелёк. Не записывайте приватный текст.
+For each phone, record the model, Android version and build, APK version, HCE
+support, whether Secure NFC is enabled, and whether a third-party wallet is set
+as the default. Use sample messages that contain no private information.
 
-1. Установить release APK на оба телефона, проверить SHA256SUMS.
-2. Включить NFC. Разблокировать экраны, открыть приложение на обоих.
-3. Первый: Send → `Привет 🌍` → Prepare to send. Второй: Receive.
-4. Совместить NFC-антенны. Проверить совпадение текста, Sent у отправителя и Received у получателя.
-5. Copy → вставить в локальное поле, проверить Unicode. Очистить буфер обмена после проверки.
-6. Повторить с 1 байтом, 224/225/1024 байтами, кириллицей и emoji на границах фрагментов.
-7. Проверить, что пустое и 1025-байтовое сообщение не подготавливаются.
-8. Разорвать контакт во время передачи: никакого частичного текста; понятная ошибка.
-   Если ACK потерян, получатель может показать полный текст с неопределённым подтверждением.
-9. Снова подготовить новое сообщение и повторить. Поменять роли телефонов.
-10. Подготовить сообщение, уйти на Home / переключить приложение / заблокировать экран /
-    сменить режим / нажать Cancel / дождаться 60 секунд: старый текст не должен считываться.
-11. Повернуть экран: подготовка отменяется, текст не восстанавливается с диска.
-12. Выключить NFC во время ожидания и во время передачи, затем включить и повторить подготовку.
-13. Проверить отсутствие NFC/HCE (эмулятор пригоден только для UI), системные светлую/тёмную темы,
-    большой шрифт, маленький экран, клавиатуру и кнопку настроек.
-14. Если кошелёк/Observe Mode мешает передаче, зафиксировать конфигурацию и проверить другое устройство.
-15. Установить следующую версию с тем же ключом поверх первой — обновление без удаления.
+1. Verify the release APK against `SHA256SUMS` and install it on both phones.
+2. Enable NFC, unlock both screens, and open the app on each phone.
+3. On the first phone, select **Send**, enter `Hello 🌍`, and tap **Prepare to send**.
+   On the second phone, select **Receive**.
+4. Bring the NFC antennas together. Verify that the text matches and that the
+   sender shows **Sent** and the receiver shows **Received**.
+5. Tap **Copy**, paste into a local text field, and verify that Unicode is preserved.
+   Clear the clipboard after the check.
+6. Repeat with messages of 1, 224, 225, and 1024 bytes, including Cyrillic letters
+   and emoji at fragment boundaries.
+7. Verify that the app rejects empty messages and messages of 1025 bytes.
+8. Separate the phones mid-transfer. Verify that the app shows a clear error and
+   displays no partial text. If the ACK is lost, the receiver may display the complete
+   message with an uncertain acknowledgment status.
+9. Prepare a new message and repeat the transfer. Swap the phones' roles and repeat again.
+10. Prepare a message and check each cancellation separately. Go to the home screen,
+    switch apps, lock the screen, switch modes, tap **Cancel sending**, or wait 60 seconds.
+    Verify that the receiver cannot read the old message after each action.
+11. Rotate the screen. Verify that preparation is canceled and no text is restored from disk.
+12. Turn off NFC while waiting and again during a transfer. Turn it back on and prepare a new transfer.
+13. Check the UI on devices without NFC or HCE, or simulate missing hardware in an
+    emulator for UI checks. Test the system light and dark themes, large font sizes,
+    a small screen, the keyboard, and the settings button.
+14. If a wallet or Observe Mode interferes with transfers, record the configuration
+    and try a different device.
+15. Install a newer version signed with the same key over the first version and
+    verify that the app updates in place.
 
-До успешного прохождения пунктов 1–14 релиз остаётся экспериментальным prerelease.
-Добавьте таблицу результатов (модели / версии ОС / APK / результат / ограничения), затем решайте о stable.
+Keep the release marked as an experimental prerelease until checks 1–14 pass.
+Before deciding whether to publish a stable release, add a results table with the
+phone models, Android versions, APK versions, outcomes, and any limitations.

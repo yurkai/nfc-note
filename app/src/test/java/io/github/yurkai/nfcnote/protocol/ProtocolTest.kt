@@ -13,7 +13,7 @@ class ProtocolTest {
         try { block(); fail("Expected protocol failure") } catch (_: ProtocolException) { }
     }
     @Test fun utf8RoundTripAcrossFragmentBoundaries() {
-        val text = "Привет 🌍\n".repeat(45)
+        val text = "Hello, café 🌍\n".repeat(45)
         assertTrue(Protocol.encode(text).size > Protocol.CHUNK)
         val session = sender(text)
         val note = Receiver.receive(session::process)
@@ -23,8 +23,8 @@ class ProtocolTest {
     }
     @Test fun boundariesAndEmptyMessage() {
         rejects { sender("") }; rejects { sender("a".repeat(1025)) }
-        rejects { sender("я".repeat(513)) }
-        val text = "я".repeat(512)
+        rejects { sender("é".repeat(513)) }
+        val text = "é".repeat(512)
         assertEquals(text, Receiver.receive(sender(text)::process).text)
         assertEquals("a", Receiver.receive(sender("a")::process).text)
     }
